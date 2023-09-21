@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
+import { AuthModule } from './auth/auth.module';
 
 const environment = process.env.ENVIRONMENT === 'prod' ? '.prod' : '.dev';
 
@@ -14,6 +15,7 @@ const environment = process.env.ENVIRONMENT === 'prod' ? '.prod' : '.dev';
       ],
       isGlobal: true,
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
