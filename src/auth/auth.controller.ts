@@ -1,8 +1,12 @@
-import { Controller, Get, Param, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Req, UseGuards } from '@nestjs/common';
 import { DiscordAuthGuard } from './guards/discord-auth.guard';
+import { AuthService } from './auth.service';
+import { DiscordProfile } from './utils/interfaces';
 
 @Controller('auth')
 export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
   @Get('discord/login')
   @UseGuards(DiscordAuthGuard)
   login() {
@@ -11,8 +15,8 @@ export class AuthController {
 
   @Get('discord/redirect')
   @UseGuards(DiscordAuthGuard)
-  redirect() {
-    console.log('redirect');
+  async redirect(@Req() req: any) {
+    await this.authService.validateUser(req.user);
     // TODO vérifier si le user est en base
     // TODO si oui, mettre à jour ses infors Discord
     // TODO si non, créer le user
