@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { DatabaseModule } from './database/database.module';
+import { UserModule } from './resources/user/user.module';
 
 const environment = process.env.ENVIRONMENT === 'prod' ? '.prod' : '.dev';
 
@@ -18,6 +19,7 @@ const environment = process.env.ENVIRONMENT === 'prod' ? '.prod' : '.dev';
     }),
     AuthModule,
     DatabaseModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],
