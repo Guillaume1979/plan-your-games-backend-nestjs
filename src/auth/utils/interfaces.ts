@@ -7,3 +7,7 @@ export interface DiscordProfile {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface AccessToken {
+  access_token: string;
+}

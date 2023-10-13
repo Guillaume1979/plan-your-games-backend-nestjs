@@ -2,11 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { User } from '../resources/user/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { DiscordProfile } from './utils/interfaces';
+import { AccessToken, DiscordProfile } from './utils/interfaces';
+import { Payload } from '../utils/interfaces';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectRepository(User) private readonly userRepository: Repository<User>) {}
+  constructor(
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    private readonly jwtService: JwtService,
+    private readonly configService: ConfigService,
+  ) {}
 
   async validateUser(profile: DiscordProfile): Promise<User> {
     let user = await this.#checkIfUserExists(profile);
@@ -16,6 +23,15 @@ export class AuthService {
       user = await this.#updateUserProfile(user, profile);
     }
     return user;
+  }
+
+  async generateToken(user: User): Promise<AccessToken> {
+    const payload: Payload = {
+      sub: user.uuid,
+      username: user.username,
+      avatar: user.avatar,
+    };
+    return { access_token: this.jwtService.sign(payload, { secret: this.configService.get<string>('JWT_SECRET') }) } as AccessToken;
   }
 
   async #checkIfUserExists(profile: DiscordProfile): Promise<User> {

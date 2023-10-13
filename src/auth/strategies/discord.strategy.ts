@@ -2,24 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-discord-auth';
 import { DiscordProfile } from '../utils/interfaces';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
-  constructor() {
+  constructor(private readonly configService: ConfigService) {
     super({
-      clientId: process.env.DISCORD_CLIENT_ID,
-      clientSecret: process.env.DISCORD_CLIENT_SECRET,
-      callbackUrl: process.env.DISCORD_REDIRECT_URI,
+      clientId: configService.get<string>('DISCORD_CLIENT_ID'),
+      clientSecret: configService.get<string>('DISCORD_CLIENT_SECRET'),
+      callbackUrl: configService.get<string>('DISCORD_REDIRECT_URI'),
       scope: ['identify', 'guilds', 'email'],
     });
   }
 
-  async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: any,
-    done: any,
-  ) {
+  async validate(accessToken: string, refreshToken: string, profile: any, done: any) {
     const user: DiscordProfile = {
       discordId: profile.id,
       username: profile.username,
