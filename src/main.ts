@@ -9,7 +9,7 @@ async function bootstrap() {
   const port = configService.get<number>('PORT');
 
   app.setGlobalPrefix('api');
-  app.enableCors({ origin: 'localhost:4200' });
+  app.enableCors({ origin: configService.get<string>('CORS_ORIGIN') });
 
   await app.listen(port);
   Logger.log(`Server started on port : ${port}`);
