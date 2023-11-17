@@ -7,6 +7,8 @@ import { User } from '../resources/user/entities/user.entity';
 import { PassportModule } from '@nestjs/passport';
 import { CacheModule } from '@nestjs/cache-manager';
 import { JwtService } from '@nestjs/jwt';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './guards/jwt-auth-guard';
 
 @Module({
   imports: [
@@ -18,6 +20,14 @@ import { JwtService } from '@nestjs/jwt';
     CacheModule.register(),
   ],
   controllers: [AuthController],
-  providers: [AuthService, DiscordStrategy, JwtService],
+  providers: [
+    AuthService,
+    DiscordStrategy,
+    JwtService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+  ],
 })
 export class AuthModule {}

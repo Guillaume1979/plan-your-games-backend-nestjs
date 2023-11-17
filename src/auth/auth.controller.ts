@@ -7,6 +7,7 @@ import { Cache } from 'cache-manager';
 import { ConfigService } from '@nestjs/config';
 import { AccessToken } from './utils/interfaces';
 import { User } from '../resources/user/entities/user.entity';
+import {Public} from "../decorators/public.decorator";
 
 @Controller('auth')
 export class AuthController {
@@ -16,12 +17,14 @@ export class AuthController {
     private readonly configService: ConfigService,
   ) {}
 
+  @Public()
   @Get('discord/login')
   @UseGuards(DiscordAuthGuard)
   login() {
     return 'login';
   }
 
+  @Public()
   @Get('discord/redirect')
   @UseGuards(DiscordAuthGuard)
   async redirect(@Req() req: any, @Res() res: any) {
@@ -31,6 +34,7 @@ export class AuthController {
     res.redirect(`${this.configService.get<string>('CORS_ORIGIN')}/login?code=${uuid}`);
   }
 
+  @Public()
   @Post('discord/getJwtToken')
   async getJwtToken(@Req() req: any): Promise<AccessToken> {
     const authorization = req.get('Authorization');
