@@ -11,3 +11,9 @@ export interface DiscordProfile {
 export interface AccessToken {
   access_token: string;
 }
+
+export interface Payload {
+  sub: string;
+  username: string;
+  avatar: string;
+}

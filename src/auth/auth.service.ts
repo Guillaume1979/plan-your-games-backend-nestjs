@@ -2,8 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { User } from '../resources/user/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { AccessToken, DiscordProfile } from './utils/interfaces';
-import { Payload } from '../utils/interfaces';
+import { AccessToken, DiscordProfile, Payload } from './utils/interfaces';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 
