@@ -7,7 +7,7 @@ import { Cache } from 'cache-manager';
 import { ConfigService } from '@nestjs/config';
 import { AccessToken } from './utils/interfaces';
 import { User } from '../resources/user/entities/user.entity';
-import {Public} from "../decorators/public.decorator";
+import { Public } from '../decorators/public.decorator';
 
 @Controller('auth')
 export class AuthController {

@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { LoggingInterceptor } from './interceptors/logging.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -10,6 +11,8 @@ async function bootstrap() {
 
   app.setGlobalPrefix('api');
   app.enableCors({ origin: configService.get<string>('CORS_ORIGIN') });
+
+  app.useGlobalInterceptors(new LoggingInterceptor());
 
   await app.listen(port);
   Logger.log(`Server started on port : ${port}`);
