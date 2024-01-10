@@ -1,4 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Role } from '../../../enums/role';
 
 @Entity()
 export class User {
@@ -20,7 +21,9 @@ export class User {
   @Column({ nullable: true })
   age?: number;
 
-  //todo roles: Role[];
+  @Column({ type: 'enum', enum: Role, default: Role.USER, nullable: false })
+  role: Role;
+
   //todo guilds: Guild[];
   //todo sessions: Session[];
 }
