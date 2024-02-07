@@ -44,6 +44,6 @@ export class AuthController {
     if (!code) throw new UnauthorizedException();
 
     const user = await this.cacheManager.get<User>(`temp-user-code__${code}`);
-    return this.authService.generateToken(user);
+    return await this.authService.generateToken(user);
   }
 }
