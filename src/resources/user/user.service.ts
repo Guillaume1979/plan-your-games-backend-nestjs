@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
@@ -18,7 +18,7 @@ export class UserService {
   }
 
   async findOne(uuid: string): Promise<User> {
-    const user = await this.userRepository.findOne({ where: { uuid } });
+    const user = await this.userRepository.findOne({ where: { uuid: Equal(uuid) } });
     if (!user) throw new NotFoundException('Joueur non trouvé');
     return user;
   }
