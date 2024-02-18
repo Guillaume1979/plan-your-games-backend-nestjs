@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './guards/jwt-auth-guard';
 import { RolesGuard } from './guards/roles.guard';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { RolesGuard } from './guards/roles.guard';
   providers: [
     AuthService,
     DiscordStrategy,
+    JwtStrategy,
     JwtService,
     {
       provide: APP_GUARD,
