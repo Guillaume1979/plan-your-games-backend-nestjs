@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '../resources/user/entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Equal, Repository } from 'typeorm';
 import { AccessToken, DiscordProfile, Payload } from './utils/interfaces';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
@@ -35,7 +35,7 @@ export class AuthService {
 
   async #checkIfUserExists(profile: DiscordProfile): Promise<User> {
     return await this.userRepository.findOneBy({
-      discordId: profile.discordId,
+      discordId: Equal(profile.discordId),
     });
   }
 

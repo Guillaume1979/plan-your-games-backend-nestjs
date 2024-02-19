@@ -1,6 +1,7 @@
 export interface DiscordProfile {
   discordId: string;
   username: string;
+  nickname: string;
   email: string;
   avatar: string;
   guilds: any[]; //todo à typer

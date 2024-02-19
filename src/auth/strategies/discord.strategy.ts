@@ -19,6 +19,7 @@ export class DiscordStrategy extends PassportStrategy(Strategy, 'discord') {
     const user: DiscordProfile = {
       discordId: profile.id,
       username: profile.username,
+      nickname: profile.global_name,
       email: profile.email,
       avatar: profile.avatar,
       guilds: profile.guilds,
