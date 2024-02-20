@@ -3,11 +3,11 @@ import { User } from '../../user/entities/user.entity';
 
 @Entity()
 export class Guild {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  uuid: string;
 
   @Column({ nullable: false })
-  discordId: number;
+  discordId: string;
 
   @Column({ nullable: false })
   name: string;

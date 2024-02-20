@@ -4,7 +4,7 @@ export interface DiscordProfile {
   nickname: string;
   email: string;
   avatar: string;
-  guilds: any[]; //todo à typer
+  guilds: any[]; //not equivalent to the type Guild because the received id correspond to discordId
   accessToken: string;
   refreshToken: string;
 }
