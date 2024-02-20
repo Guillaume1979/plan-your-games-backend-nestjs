@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module';
 import { DatabaseModule } from './database/database.module';
 import { UserModule } from './resources/user/user.module';
 import { CacheModule } from '@nestjs/cache-manager';
+import { GuildModule } from './resources/guild/guild.module';
 
 const environment = process.env.ENVIRONMENT === 'prod' ? '.prod' : '.dev';
 
@@ -19,6 +20,7 @@ const environment = process.env.ENVIRONMENT === 'prod' ? '.prod' : '.dev';
     DatabaseModule,
     UserModule,
     CacheModule.register(),
+    GuildModule,
   ],
   controllers: [AppController],
   providers: [AppService],

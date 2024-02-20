@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from '../../../enums/role';
+import { Guild } from '../../guild/entities/guild.entity';
 
 @Entity()
 export class User {
@@ -27,6 +28,9 @@ export class User {
   @Column({ type: 'enum', enum: Role, default: Role.USER, nullable: false })
   role: Role;
 
-  //todo guilds: Guild[];
+  @ManyToMany(() => Guild, (guild) => guild.members, { nullable: true, eager: true })
+  @JoinTable()
+  guilds: Guild[];
+
   //todo sessions: Session[];
 }
