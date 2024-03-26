@@ -1,8 +1,9 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { AppModule, environment } from './app.module';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
+import { FakeDatabaseDataLoader } from './database/fakeDatabaseDataLoader';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +16,9 @@ async function bootstrap() {
   app.useGlobalInterceptors(new LoggingInterceptor());
 
   await app.listen(port);
+  if (environment === '.dev') {
+    new FakeDatabaseDataLoader();
+  }
   Logger.log(`Server started on port : ${port}`);
 }
 
