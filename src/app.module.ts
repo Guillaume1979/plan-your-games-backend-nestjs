@@ -7,8 +7,10 @@ import { DatabaseModule } from './database/database.module';
 import { UserModule } from './resources/user/user.module';
 import { CacheModule } from '@nestjs/cache-manager';
 import { GuildModule } from './resources/guild/guild.module';
+import { GameModule } from './resources/game/game.module';
+import { SessionModule } from './resources/session/session.module';
 
-const environment = process.env.ENVIRONMENT === 'prod' ? '.prod' : '.dev';
+export const environment = process.env.ENVIRONMENT === 'prod' ? '.prod' : '.dev';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ const environment = process.env.ENVIRONMENT === 'prod' ? '.prod' : '.dev';
     UserModule,
     CacheModule.register(),
     GuildModule,
+    GameModule,
+    SessionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
