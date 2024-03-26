@@ -1,6 +1,7 @@
 import { Column, Entity, JoinTable, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Role } from '../../../enums/role';
 import { Guild } from '../../guild/entities/guild.entity';
+import { Session } from '../../session/entities/session.entity';
 
 @Entity()
 export class User {
@@ -32,5 +33,7 @@ export class User {
   @JoinTable()
   guilds: Guild[];
 
-  //todo sessions: Session[];
+  @ManyToMany(() => Session, (session) => session.participants, { nullable: true })
+  @JoinTable()
+  sessions: Session[];
 }
