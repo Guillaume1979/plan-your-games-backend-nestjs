@@ -1,7 +1,6 @@
 import { Body, Controller, Delete, Get, Param, Patch } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Public } from '../../decorators/public.decorator';
 import { User } from './entities/user.entity';
 import { ConnectedUser } from '../../decorators/user.decorator';
 
@@ -9,7 +8,6 @@ import { ConnectedUser } from '../../decorators/user.decorator';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Public() //todo à enlever après les tests
   @Get()
   findAll(): Promise<User[]> {
     return this.userService.findAll();
@@ -20,7 +18,6 @@ export class UserController {
     return this.userService.findOne(user.uuid);
   }
 
-  @Public() //todo à enlever après les tests
   @Get(':uuid')
   findOne(@Param('uuid') uuid: string): Promise<User> {
     return this.userService.findOne(uuid);
