@@ -1,9 +1,8 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule, environment } from './app.module';
+import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { LoggingInterceptor } from './interceptors/logging.interceptor';
-import { FakeDatabaseDataLoader } from './database/fakeDatabaseDataLoader';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
