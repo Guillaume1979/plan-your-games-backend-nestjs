@@ -6,6 +6,8 @@ import { Guild } from '../resources/guild/entities/guild.entity';
 import { Session } from '../resources/session/entities/session.entity';
 import { Game } from '../resources/game/entities/game.entity';
 import { environment } from '../app.module';
+import { random } from 'nanoid';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class FakeDatabaseDataLoader implements OnModuleInit {
@@ -15,10 +17,11 @@ export class FakeDatabaseDataLoader implements OnModuleInit {
     @InjectRepository(Session) private sessionRepository: Repository<Session>,
     @InjectRepository(Game) private gameRepository: Repository<Game>,
     private dataSource: DataSource,
+    private configService: ConfigService,
   ) {}
 
   async onModuleInit() {
-    if (environment === '.dev') {
+    if (environment === '.dev' && JSON.parse(this.configService.get('LOAD_FAKE_DATA'))) {
       await this.#loadFakeData();
     }
   }
@@ -34,12 +37,21 @@ export class FakeDatabaseDataLoader implements OnModuleInit {
 
   createdGames: Game[] = [];
   createdSessions: Session[] = [];
+  createdGuilds: Guild[] = [];
 
   async #loadUsers() {
     const users = [{}];
   }
 
-  async #loadGuilds() {}
+  async #loadGuilds() {
+    let guildsToCreate: Guild[] = [];
+    const guilds = [
+      {
+        name: 'La compagnie de TOTO',
+        discordId: random(6),
+      },
+    ];
+  }
 
   async #loadSessions() {
     let sessionsToCreate: Session[] = [];
