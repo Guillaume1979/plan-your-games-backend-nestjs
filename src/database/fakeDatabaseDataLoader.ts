@@ -32,6 +32,7 @@ export class FakeDatabaseDataLoader implements OnModuleInit {
     // await this.#loadUsers();
     await this.#loadGames();
     await this.#loadSessions();
+    await this.#loadGuilds();
     Logger.log('END Loading', 'FAKE DATA');
   }
 
@@ -48,9 +49,38 @@ export class FakeDatabaseDataLoader implements OnModuleInit {
     const guilds = [
       {
         name: 'La compagnie de TOTO',
-        discordId: random(6),
+        discordId: random(12).toString(),
+        icon: '123456',
+      },
+      {
+        name: 'La bande de Pifou',
+        discordId: random(12).toString(),
+        icon: '123456',
+      },
+      {
+        name: 'Picsou Club',
+        discordId: random(12).toString(),
+        icon: '123456',
+      },
+      {
+        name: 'Les roturiers',
+        discordId: random(12).toString(),
+        icon: '123456',
+      },
+      {
+        name: 'POWER RANGERS',
+        discordId: random(12).toString(),
+        icon: '123456',
       },
     ];
+
+    for (let i = 0; i < guilds.length; i++) {
+      const guild = this.guildRepository.create(guilds[i]);
+      guildsToCreate.push(guild);
+    }
+
+    this.createdGuilds = await this.guildRepository.save(guildsToCreate);
+    Logger.verbose('Guilds added :', this.createdGuilds);
   }
 
   async #loadSessions() {
