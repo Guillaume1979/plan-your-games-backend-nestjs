@@ -16,9 +16,6 @@ async function bootstrap() {
   app.useGlobalInterceptors(new LoggingInterceptor());
 
   await app.listen(port);
-  if (environment === '.dev') {
-    new FakeDatabaseDataLoader();
-  }
   Logger.log(`Server started on port : ${port}`);
 }
 
