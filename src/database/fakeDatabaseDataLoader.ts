@@ -6,8 +6,8 @@ import { Guild } from '../resources/guild/entities/guild.entity';
 import { Session } from '../resources/session/entities/session.entity';
 import { Game } from '../resources/game/entities/game.entity';
 import { environment } from '../app.module';
-import { random } from 'nanoid';
 import { ConfigService } from '@nestjs/config';
+import { Role } from '../enums/role';
 
 @Injectable()
 export class FakeDatabaseDataLoader implements OnModuleInit {
@@ -29,10 +29,10 @@ export class FakeDatabaseDataLoader implements OnModuleInit {
   async #loadFakeData() {
     Logger.log('START Loading', 'FAKE DATA');
     await this.dataSource.synchronize(true);
-    // await this.#loadUsers();
     await this.#loadGames();
     await this.#loadSessions();
     await this.#loadGuilds();
+    await this.#loadUsers();
     Logger.log('END Loading', 'FAKE DATA');
   }
 
@@ -41,7 +41,74 @@ export class FakeDatabaseDataLoader implements OnModuleInit {
   createdGuilds: Guild[] = [];
 
   async #loadUsers() {
-    const users = [{}];
+    let usersToCreate: User[] = [];
+    const users = [
+      {
+        username: 'Guitou123',
+        nickname: 'Guitou',
+        email: 'monadresse@toto.com',
+        discordId: '0001',
+        age: 44,
+        role: Role.ADMIN,
+      },
+      {
+        username: 'Raphy',
+        nickname: 'Canardus',
+        email: 'monadresse@coincoin.com',
+        discordId: '0002',
+        age: 15,
+        role: Role.USER,
+      },
+      {
+        username: 'Pinou',
+        nickname: 'Lapinator',
+        email: 'monadresse@carotte.com',
+        discordId: '0003',
+        age: 13,
+        role: Role.USER,
+      },
+      {
+        username: 'Capucine',
+        nickname: "Pupuce d'amour",
+        email: 'monadresse@coeurdamour.com',
+        discordId: '0004',
+        age: 15,
+        role: Role.USER,
+      },
+    ];
+    users.forEach((user, index) => {
+      const newUser = this.userRepository.create(user);
+      if (index === 0) {
+        newUser.guilds = [this.createdGuilds[0]];
+        newUser.guilds.push(this.createdGuilds[1]);
+        newUser.guilds.push(this.createdGuilds[3]);
+        newUser.sessions = [this.createdSessions[0]];
+        newUser.sessions.push(this.createdSessions[1]);
+        newUser.sessions.push(this.createdSessions[2]);
+      }
+      if (index === 1) {
+        newUser.guilds = [this.createdGuilds[0]];
+        newUser.guilds.push(this.createdGuilds[1]);
+        newUser.guilds.push(this.createdGuilds[2]);
+        newUser.sessions = [this.createdSessions[2]];
+      }
+      if (index === 2) {
+        newUser.guilds = [this.createdGuilds[2]];
+        newUser.guilds.push(this.createdGuilds[4]);
+        newUser.sessions = [this.createdSessions[2]];
+      }
+      if (index === 3) {
+        newUser.guilds = [this.createdGuilds[1]];
+        newUser.guilds.push(this.createdGuilds[4]);
+        newUser.sessions = [this.createdSessions[1]];
+        newUser.sessions.push(this.createdSessions[2]);
+        newUser.sessions.push(this.createdSessions[0]);
+      }
+      usersToCreate.push(newUser);
+    });
+    console.log(usersToCreate);
+    await this.userRepository.save(usersToCreate);
+    Logger.verbose('Users added :', usersToCreate);
   }
 
   async #loadGuilds() {
@@ -49,27 +116,27 @@ export class FakeDatabaseDataLoader implements OnModuleInit {
     const guilds = [
       {
         name: 'La compagnie de TOTO',
-        discordId: random(12).toString(),
+        discordId: '123',
         icon: '123456',
       },
       {
         name: 'La bande de Pifou',
-        discordId: random(12).toString(),
+        discordId: '234',
         icon: '123456',
       },
       {
         name: 'Picsou Club',
-        discordId: random(12).toString(),
+        discordId: '345',
         icon: '123456',
       },
       {
         name: 'Les roturiers',
-        discordId: random(12).toString(),
+        discordId: '456',
         icon: '123456',
       },
       {
         name: 'POWER RANGERS',
-        discordId: random(12).toString(),
+        discordId: '567',
         icon: '123456',
       },
     ];
